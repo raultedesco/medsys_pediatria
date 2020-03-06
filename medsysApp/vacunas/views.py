@@ -13,7 +13,7 @@ from django.views.generic.edit import(
     DeleteView
 )
 
-#ABM Vacunas
+#ABM Vacunas simple
 
 
 class VacunaListView(ListView):
