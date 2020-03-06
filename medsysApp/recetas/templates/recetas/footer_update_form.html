@@ -1,0 +1,40 @@
+{% extends 'core/base.se.html' %}
+
+{%load static%}
+
+{% block content %}
+<!-- Page Heading -->
+<a href="{% url 'recetas:footer_list' %}" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm mb-4"><i class="fas fa-arrow-left"></i>Volver</a>
+
+
+<div class="row">
+    <div class="col-xl-6 col-lg-7">
+        <div class="card shadow mb-4">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">Modifique los datos del Pie de la receta</label>
+                    <!-- <p>
+                        <textarea name="footer" cols="40" rows="10" placeholder=""
+                            maxlength="200" required id="id_footer"></textarea>
+                    </p> -->
+                    <p>
+                    {{form.footer}}
+                    </p>
+                    <label for="">Modifique la Orientacion</label>
+                    {{form.orientacion}}
+                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mt-2" type="submit"
+                        value="Submit"><i class="fas fa-save"></i> Guardar</button>
+
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

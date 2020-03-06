@@ -1,0 +1,175 @@
+{% extends 'core/base.se.html' %}
+{% block content %}
+  
+          <!-- Content Row -->
+
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Vacunas del Paciente</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th scope="col"><i class="fas fa-business-time"></i><i class="fas fa-syringe"></i></th>
+            
+                        
+                        {% for t in tipo  %}
+                        <th scope="col" id="tipo_{{t.id}}">{{t.desc}}</th>
+                        {% endfor %}
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                        
+
+                        <!-- ref valores date -->
+                      <!-- v.created|date:"Y-m-d " 2009-10-19 -->
+                   
+                        <tr>
+                        <th scope="row" id="periodo_1">0 Meses -RN</th>
+                        
+                      
+
+                           
+                        
+                        <th> <form action="submit">
+                            <div class="form-group">
+                            <input class="form-control" id="date" type="date" value='{{v.created|date:"Y-m-d"}}' disabled>
+                            
+                            </div>
+                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="button" aria-pressed="false" autocomplete="off">
+                              <i class="fas fa-user-edit fa-sm "></i></button>
+                              <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit"  value="Submit"><i class="fas fa-save fa-sm "></i></button> 
+                            </form></th>
+                        
+                    
+                          
+                     
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_2">2 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_3">3 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_4">6 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_5">7 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_6">12 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_7">15 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_8">15-18 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_9">5-6 Años </th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_10">11 Años</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_11">2 Meses</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="periodo_2">2 Meses</th>
+                        </tr>
+
+                        
+                    </tbody>
+                </table>
+
+                <form action="submit">
+                  <div class="form-group">
+                  <input class="form-control" id="date" type="date" value='{{v.created|date:"Y-m-d"}}' disabled>
+                  
+                  </div>
+                  <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="button" aria-pressed="false" autocomplete="off">
+                    <i class="fas fa-user-edit fa-sm "></i></button>
+                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit"  value="Submit"><i class="fas fa-save fa-sm "></i></button> 
+                  </form>
+
+              </div>
+            </div>
+          </div>
+
+      <!-- End of Main Content -->
+          <div>
+
+
+          </div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+      {% endblock content %}
+      {% block scripts %}
+      <script defer>
+      function get_vacunas_by_tipo(id){
+      
+        console.log("funcion con parametro:"+id);
+        $.ajax({
+          type: "GET",
+          url: "/vacunas/get_vacunas/"+id,
+          dataType: "json",
+          success: function (response) {
+              // var consult = json.consults;
+              
+              if  (response.length > 0) {
+                for (let index = 0; index < response.length; index++) {
+                   console.log(response[index]);
+                  
+                }
+              }
+              
+
+
+
+ 
+          }
+      
+      });
+      }
+      </script>
+<script>
+
+{%for p in periodo%}
+get_vacunas_by_tipo({{p.id}});
+{%endfor%}
+</script>
+<script>
+{%for v in vacuna %}
+              
+            var fila='<th>{{v.fecha_aplicacion|date:"Y-m-d"}} {{v.tipo_id.desc}} </th>';
+            var fila_vacia='<th></th>';
+            var tipo_id = {{v.tipo_id.id}};
+            for (let index = 1; index <= tipo_id; index++) {
+              console.log(index+"periodo_{{v.periodo_id.id}}");
+              if (index < tipo_id) {
+              $("#periodo_{{v.periodo_id.id}}").after(fila_vacia);
+            } else {
+              $("#periodo_{{v.periodo_id.id}}").after(fila);
+            }
+              
+            }
+
+             
+              
+              {%endfor%}
+</script>
+
+      {% endblock  %}

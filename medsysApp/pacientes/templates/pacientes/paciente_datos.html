@@ -1,0 +1,86 @@
+{% extends 'core/base.se.html' %}
+<!DOCTYPE html>
+
+
+{% block paciente_link %}
+
+{% url 'pacientes:detail' paciente.id %}
+
+{% endblock paciente_link %}
+
+{% block consulta_link %}
+
+{% url 'obrasocial:afiliado' paciente.id %}
+
+{% endblock consulta_link %}
+
+{% block content %}
+<!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Datos del Paciente </h1>
+
+            <!-- <a href="{% url 'recetas:add' paciente.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generar Receta</a> -->
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-lg-12">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Accordion -->
+              <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">{{ paciente.nya }}</h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="collapse show" id="collapseCardExample">
+                <div class="card-body">
+                  
+                  <form>
+                    {% csrf_token %}
+                
+                    <!-- {{ form.as_p }} -->
+                
+                </form>
+                 <h5>
+                  <span class="badge badge-secondary">DNI</span> {{paciente.dni}}
+                  <span class="badge badge-secondary">Nombre y Apellido</span> {{paciente.nya}}
+                  <span class="badge badge-secondary">Telefono</span> {{paciente.telefono}}
+                  <span class="badge badge-secondary">Celular</span> {{paciente.celular}}
+                </h5>
+                 <h5>
+                  <span class="badge badge-secondary">Direccion</span> {{paciente.direccion}}
+                  <span class="badge badge-secondary">CP</span> {{paciente.cp}}
+                  <span class="badge badge-secondary">Email</span> {{paciente.mail}}
+                  <span class="badge badge-secondary">Telefono</span> {{paciente.telefono}}
+                  
+                </h5>
+                <h5>
+                    <span class="badge badge-secondary">Fecha de Nacimiento</span> {{paciente.fecha_nac}} 
+                    <span class="badge badge-secondary">Peso de Nacimiento</span> {{paciente.peso_nac}} 
+                    <span class="badge badge-secondary">Edad</span>{{edad}} 
+                </h5><h5>
+                  <span class="badge badge-secondary">Eg</span> {{paciente.eg}} 
+                  <span class="badge badge-secondary">Talla</span> {{paciente.talla}} 
+                  <span class="badge badge-secondary">PC</span> {{paciente.pc}} 
+                  <span class="badge badge-secondary">Apgar</span> {{paciente.apgar}} 
+                  <span class="badge badge-secondary">Tutor</span> {{paciente.tutor}} 
+
+                </h5>
+
+                  <a href="{% url 'pacientes:brief' paciente.id %}"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left fa-sm "></i> Volver</a>
+                  <a href="{% url 'pacientes:edit' paciente.id %}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-user-edit fa-sm "></i> Editar</a>
+                  <a href="{% url 'pacientes:delete' paciente.id %}"class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa-trash fa-sm "></i> Eliminar</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+  {% endblock content %}
+
+
+
+
+
+

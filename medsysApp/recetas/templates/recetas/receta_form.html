@@ -1,0 +1,166 @@
+{% extends 'core/base.se.html' %}
+
+{% block content %}
+<head>
+  <style>
+textarea {
+  /* white-space: normal;
+  text-align: justify; */
+  -moz-text-align-last: center; /* Firefox 12+ */
+  text-align-last: center;
+  /* background-color: red; */
+}
+
+  </style>
+</head>
+
+<div class="row">
+
+  <!-- Grafica Peso -->
+  <div class="col-xl-6 col-lg-7">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+      
+      <h6 class="m-0 font-weight-bold text-primary">Receta Medica -- {% now "SHORT_DATE_FORMAT" %}</h6>
+    </div>
+    <div class="card-body">
+        <form method="post" target="_blank/receta" id='Recta'>
+            {% csrf_token %}
+      <p class="mb-0">
+          <textarea id="id_receta" name="descripcion" cols="40" rows="10" placeholder="Ingrese Texto de la Receta" maxlength="1000" required id="id_descripcion" class="form-control">Fecha:{% now "SHORT_DATE_FORMAT" %}&#13;&#10; Paciente:{{paciente.nya}}{%if paciente.dni != None %} -DNI:{{paciente.dni}}{%endif%}&#13;&#10;Obra Social:{{afiliado.ObraSocial}} &#13;&#10;N° {{afiliado.n_afiliado}}
+          </textarea>
+          
+       <!-- {{form.descripcion}} -->
+      </p>
+      {{form.paciente_id}}
+      <a href="{% url 'recetas:list' paciente.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mt-2"><i class="fas fa-arrow-left"></i>Volver   </a>
+      <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mt-2" type="submit"  value="Submit"><i class="fas fa-print"></i> Imprimir / <i class="fas fa-file-pdf"></i> Generar PDF</button>
+
+    </div>
+    
+  </div>
+  </div>
+
+  <div class="col-xl-6 col-lg-7">
+  <div class="card shadow mb-4">
+
+    <div class="card-header py-3">
+      
+      <h6 class="m-0 font-weight-bold text-primary">Opciones de Receta</h6>
+    </div>
+    <div class="card-body">
+
+      
+     <p class="mb-2">
+      <label for="">Templates        </label>
+
+      
+      <label for="">Templates custom       </label>
+
+      <select name="template_id" required id="id_template_id" class="form-control">
+        
+          {% for instance in form.template_id.field.queryset %}
+          {% if instance.default_template %}
+          <option value="{{ instance.id }}">{{ instance.id }}-{{ instance.name}}</option>
+          {% endif %}
+          {% endfor %}
+        
+          {% for instance in form.template_id.field.queryset %}
+          {% if instance.default_template != True %}
+          <option value="{{ instance.id }}">{{ instance.id }}-{{ instance.name}}</option>
+          {% endif %}
+          {% endfor %}
+
+    </select>
+     </p>   
+     
+      <p>
+        <label for="">Notas Rapidas</label>
+        <id id="select"> 
+        <select name="snippet" id="snippet" class="form-control" >
+          <option value="option0">---------</option>
+
+          {%for s in snippets%}
+          
+          <option value="option{{s.id}}">{{s.snippet}}</option>
+          {%endfor%}  
+        </select>
+        </id>
+      </p>
+      <p>
+        <a id="putPac-DNIintoTexArea" href="javascript:void(0);" onclick="PutPac_DNIinTexArea();"class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm"><i class="fas fa-arrow-left"></i></a>
+          <label id="l_pac_dni">
+          Paciente:{{paciente.nya}}{%if paciente.dni != None %} 
+            -DNI:{{paciente.dni}}{%endif%}
+          </label>
+      </p>
+      <p>
+        <a id="putOSintoTexArea" href="javascript:void(0);" onclick="PutOSinTexArea();" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm"><i class="fas fa-arrow-left"></i></a>
+        <label id="l_os">Obra Social:{{afiliado.ObraSocial}} 
+          -N° {{afiliado.n_afiliado}}</label>
+      </p>
+      
+        </form>
+        <!-- <button id="bleft">IZQ</button>
+        <button id="bcenter">CENTER</button> -->
+
+      </div>
+    
+  </div>
+  </div>
+</div>
+{% endblock%}
+
+{% block scripts %}
+<script>
+var $text = $('#id_receta');
+var tempText = $text.text();
+tempText = tempText.replace("&#13;&#10;", "<br></br>");
+tempText = tempText.replace("\n", "<br></br>");
+// tempText = tempText.replace("\r", "<br></br>");
+// tempText= tempText.replace("\n\r", "<br></br>");
+console.log(tempText);
+</script>
+<script>
+  $(document).ready(function(){
+  $("#snippet").change(function() {
+    //alert('evento change')
+    // $('#select select').attr('selected').html().clone().appendTo('textarea'); 
+    var selected = $(this).children("option:selected").text();
+   $('#id_receta').val($('#id_receta').val()+selected);  
+
+
+});
+  
+  });
+</script>
+
+
+<script type="text/javascript">
+  function PutOSinTexArea () {
+      var tempos=$('#l_os').text()
+      // return true or false, depending on whether you want to allow the `href` property to follow through or not
+      console.log(tempos)
+      $('#id_receta').val($('#id_receta').val()+tempos);  
+  }
+  function PutPac_DNIinTexArea () {
+      // return true or false, depending on whether you want to allow the `href` property to follow through or not
+      var tempPac_DNI=$('#l_pac_dni').text()
+      // return true or false, depending on whether you want to allow the `href` property to follow through or not
+      console.log(tempPac_DNI)
+      $('#id_receta').val($('#id_receta').val()+tempPac_DNI);  
+  }
+</script>
+<!-- <script>
+
+$(document).ready(
+$('#bleft').click(function(){
+  $("#id_receta").css('text-align-last',"left");}));
+  $('#bcenter').click(function(){
+  
+  $("#id_receta").css('text-align-last',"center");})
+  //muesta el valor del texarea center o left
+  console.log($("#id_receta").css('text-align-last'));  
+  </script> -->
+{% endblock scripts %}
+  

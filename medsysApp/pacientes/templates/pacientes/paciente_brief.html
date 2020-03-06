@@ -1,0 +1,311 @@
+{% extends 'core/base.index.html' %}
+<!DOCTYPE html>
+
+{% load static %}
+
+<!-- Implementacion Lista de Espera -->
+{% block lista_espera %}
+{% for turno in lista_espera%}
+{% url 'pacientes:brief' turno.paciente_id.id as url_paciente_detail %}
+<a class="collapse-item" href="{{url_paciente_detail}}">{{turno.nya}}</a>
+{% empty %}
+No hay Pacientes aun...
+{% endfor %}
+{%endblock%}
+
+{% block back %}<a href="{%url 'pacientes:list'%}"><i class="fas fa-arrow-left"></i>Dashboard -
+  Pacientes</a>{% endblock %}
+
+<!-- Implementacion Resumen de Consultas Recientes -->
+{% block recent_consults %}
+<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+  aria-haspopup="true" aria-expanded="false">
+  <i class="fas fa-envelope fa-fw"></i>
+  <!-- Counter - Messages -->
+  <span class="badge badge-danger badge-counter">{{consultas_count}}</span>
+</a>
+<!-- Dropdown - Messages -->
+<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+  aria-labelledby="messagesDropdown">
+  <h6 class="dropdown-header">
+    ultimas Consultas
+  </h6>
+
+
+
+  {%if consultas_count != 0 %}
+  {% for c in consultas_list%}
+  <a class="dropdown-item d-flex align-items-center" href="{% url 'consultas:detail' c.id%}">
+    <div class="dropdown-list-image mr-3">
+      <img class="rounded-circle" src="{% static 'core/img/consulta.png'%}" alt="">
+      <div class="status-indicator bg-secondary"></div>
+    </div>
+    <div class="font-weight-bold">
+      <div class="text-truncate">{{c.descripcion}}</div>
+      <div class="small text-primary">{{c.fecha_consulta}}</div>
+    </div>
+  </a>
+  {% endfor %}
+  <a class="dropdown-item text-center small text-gray-500" href="{%url 'consultas:list' paciente.id%}">Ver mas
+    Consultas</a>
+  {% else %}
+  <a class="dropdown-item d-flex align-items-center" href="#">
+    <div class="dropdown-list-image mr-3">
+      <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+      <div class="status-indicator bg-success"></div>
+    </div>
+    <div class="font-weight-bold">
+      <div class="text-truncate">Todavia No Existen Consultas...</div>
+      <div class="small text-gray-500"></div>
+    </div>
+  </a>
+
+  {% endif %}
+
+
+  {% endblock recent_consults %}
+
+
+
+
+
+
+  {% block content %}
+
+  {%load static%}
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h4 class="h4 mb-0 text-gray-800">
+      <a href="{%url 'pacientes:list'%}" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm ml-4">
+        <i class="fas fa-arrow-left fa-sm text-blue-50"></i> Dashboard
+      </a>
+      <span class="badge badge-primary">Paciente: {{paciente.nya}}</span>
+      <span class="badge badge-secondary">Tutor: {{paciente.tutor}}</span>
+    </h4>
+    <h4>
+      <a href="{% url 'recetas:list' paciente.id %}"
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+          class="fas fa-download fa-sm text-white-50"></i> Todas las Recetas</a>
+      <a href="{% url 'recetas:add' paciente.id %}"
+        class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
+          class="fas fa-download fa-sm text-white-50"></i> Generar Receta</a>
+    </h4>
+
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+
+    <!-- Tarjeta Paciente Brief -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+
+                <a clas="text-primary" href="{% url 'pacientes:detail' paciente.id %}">{{paciente.nya}}</a>
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{paciente.dni}}</div>
+
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta Obra Social Brief -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              {% if afiliado != 'Sin Obra Social'%}
+
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                <a class="text-success" href="{% url 'obrasocial:afiliado' afiliado.id %}">{{afiliado.ObraSocial}}</a>
+
+              </div>
+
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{afiliado.n_afiliado}} </div>
+              {% else %}
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                <a class="text-success" href="#">{{afiliado}}</a>
+                <a href="{% url 'obrasocial:create' %}"
+                  class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm text-capitalize">
+                  <i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Crear Obra Social
+                </a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta Consultas Brief -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              {% if consultas_count != 0 %}
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+
+                <a class="text-info" href="{%url 'consultas:list' paciente.id%}">Consultas</a>
+
+              </div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{consultas_count}}</div>
+                  {% else %}
+
+                  <div class="text-xs font-weight-bold text-info text-uppercase">
+
+                    <a class="text-info" href="{%url 'consultas:list' paciente.id%}">Sin Consultas</a>
+
+                  </div>
+                  <a href="{% url 'consultas:create' paciente.id %}"
+                    class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm text-capitalize">
+                    <i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Nueva Consulta
+                  </a>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+
+
+                      {% endif %}
+
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Vacunas Brief-->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  {% if vacunas_count > 0 %}
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+
+                    <a class="text-warning" href="{%url 'vacunas:list' paciente.id%}">Vacunas</a>
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{vacunas_count}}</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-syringe fa-2x text-gray-300"></i>
+                </div>
+                {%else%}
+                <div class="text-xs font-weight-bold text-warning text-uppercase">
+
+                  <a class="text-warning" href="{%url 'vacunas:list' paciente.id%}">Sin Vacunas</a>
+                </div>
+                <a href="{%url 'vacunas:create' paciente.id%}"
+                  class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm text-capitalize">
+                  <i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Crear Vacuna
+                </a>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-syringe fa-2x text-gray-300"></i>
+              </div>
+              {%endif%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+
+      <!-- Grafica Peso -->
+      <div class="col-xl-6 col-lg-7">
+        <div class="card shadow mb-4">
+          <!-- Card Header -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Peso</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="chart-area">
+              <canvas id="AreaChartPeso"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grafica Talla -->
+      <div class="col-xl-6 col-lg-5">
+
+        <div class="card shadow mb-4">
+          <!-- Card Header-->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Talla</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="chart-area">
+              <canvas id="AreaChartTalla"></canvas>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+    {% endblock content %}
+    {% block scripts %}
+    <script>
+      id = parseInt("{{paciente.id}}");
+      var endpoint='/pacientes/api/data/'+id;
+      labelsDjango=[];
+      default_data=[];
+      $.ajax({
+        type: "GET",
+        url: endpoint,
+        success: function (data) {
+          labelsDjango = data.labels;
+          default_data = data.default_data;
+          labelsDjangoTalla = data.labelsTalla;
+          default_dataTalla = data.default_dataTalla;
+
+          $.getScript("{% static 'core/js/demo/chart-bar-consultas-peso.js'%}");
+          $.getScript("{% static 'core/js/demo/chart-bar-consultas-talla.js'%}");
+          
+
+        },
+        error: function (error_data) {
+          console.log('error:'+error_data)
+        },
+      });
+
+//chart section
+
+
+// Set new default font family and font color to mimic Bootstrap's default styling
+
+
+
+
+
+    </script>
+    <!-- Page level custom scripts -->
+<!-- <script src="{% static 'core/js/demo/chart-area-demo.js'%}"></script> -->
+<!-- <script src="{% static 'core/js/demo/chart-pie-demo.js'%}"></script> -->
+    {% endblock  %}

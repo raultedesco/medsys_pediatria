@@ -1,0 +1,58 @@
+{% extends 'core/base.se.html' %}
+<!DOCTYPE html>
+
+
+
+{% block content %}
+<!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Datos de la Vacuna </h1>
+            <!-- {{ request.path }} -->
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-lg-8">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Accordion -->
+              <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">Paciente:{{vacuna.paciente_id.nya}} </h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="collapse show" id="collapseCardExample">
+                <div class="card-body">
+                  <h5>
+                    <span class="badge badge-secondary">Fecha Aplicacion</span> {{vacuna.fecha_aplicacion}}
+                    <span class="badge badge-secondary">Tipo</span> {{vacuna.tipo_id}}
+                    <span class="badge badge-secondary">Tipo</span> {{vacuna.periodo_id}}
+
+                     
+                  </h5>
+                   <h5>
+                    <span class="badge badge-secondary">Paciente Relacionado</span>{{vacuna.paciente_id}} 
+
+                    
+                    
+                  </h5>
+                  <h5>
+                    {{consulta.descripcion}}
+                  </h5>
+                    <a href="{%url 'vacunas:list' vacuna.paciente_id.id%}"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left fa-sm "></i> Volver</a>
+                    <a href="{%url 'vacunas:editar' vacuna.paciente_id.id vacuna.id%}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-user-edit fa-sm "></i> Editar</a>
+                    <a href="{%url 'vacunas:delete' vacuna.paciente_id.id vacuna.id%}"class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa-trash fa-sm "></i> Eliminar</a>
+                  
+
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+  {% endblock content %}
+
+
+
+
+
+

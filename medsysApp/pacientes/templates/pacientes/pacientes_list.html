@@ -1,0 +1,150 @@
+{% extends 'core/base.index.html' %}
+{% load static %}
+
+
+{% block lista_espera %}
+    {% for turno in lista_espera%}  
+    {%if turno.tratado is False %}
+    {% url 'pacientes:brief' turno.paciente_id.id as url_paciente_detail %}
+      <a class="collapse-item" href="{{url_paciente_detail}}">{{turno.nya}}</a>
+      {% endif%}
+      {% empty %}
+      No hay Pacientes aun...
+    {% endfor %} 
+{%endblock%}
+
+{% block content %}
+
+        <!-- Page Heading -->
+        <!-- <h1 class="h3 mb-2 text-gray-800">Pacientes</h1>
+        {{ request.path }} -->
+
+        <!-- DataTales Example -->
+        
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Pacientes           
+      
+
+              <a href="{% url 'paciente:create' %}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm text-capitalize"><i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Nuevo Paciente</a>
+              <a href="{% url 'turnos:list' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-capitalize"><i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Pacientes en Espera...</a>
+              <a href="{% url 'recetas:custom' %}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Customizar Templates de Recetas
+              </a>
+     
+            </h4>
+          </div>
+          <div class="card-body">
+              
+
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>DNI</th>
+                    <th>Edad</th>
+                    <th>Obra Social</th>
+                    <th>Tutor</th>
+                    <!-- <th>Acciones</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  
+                    
+                
+                    
+
+
+                    {% for paciente in pacientes_f %}
+                           
+                  <tr>
+                    <td><a href="{%url 'pacientes:brief' paciente.id%}">{{paciente.nya}}</a></td>
+                    <td>{{paciente.dni}}</td>
+                     <td>{{paciente.edad}}</td>
+                    <td>{{paciente.os}}</td>
+                    <td>{{paciente.tutor}}</td>
+                    <!-- <td>{{paciente.fecha_nac|date:"d-m-y"}}</td> -->
+                    <!-- <td>
+                      <a href="#" onclick="get_afiliado({{paciente.id}})"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#paciente{{paciente.id}}"><i id="b123"class="fas fa-eye "></i> </a>
+                    </td> -->
+                  </tr>
+                  <div class="modal fade" id="paciente{{paciente.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header ">
+                              <h5 class="modal-title " id="exampleModalLabel">Informacion del Paciente  </h5>
+                          </div>
+                        
+                          <div id="m{{paciente.id}}" class="modal-body ">
+                            <div class="card border-left-primary  ">
+                              NYA:{{paciente.nya}}<br>
+                              DNI:{{paciente.dni}}<br>
+                              Telefono:{{paciente.telefono}}<br>
+                              Celular:{{paciente.celular}}<br>
+                              Direccion:{{paciente.direccion}}<br>
+                              Fecha de Nac.{{paciente.fecha_nac }}<br>
+                            </div>
+                            <h1></h1>
+                            <div class="card border-left-success  ">
+                              <p></p>
+                            </div> 
+                         
+                           
+                            
+                          </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-success" type="button" data-dismiss="modal">OK</button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  {% empty %}
+                  No hay Pacientes aun...
+                  {% endfor %}   
+                </tbody>
+               
+              </table>
+            </div>
+          </div>
+        </div>
+
+        
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script src="{% static 'core/js/demo/datatables-default.js'%}"></script>
+
+<script defer>
+function get_afiliado(id){
+
+  console.log("funcion con parametro:"+id);
+  $.ajax({
+    type: "GET",
+    url: "/pacientes/get_consultas/"+id,
+    dataType: "json",
+    success: function (response) {
+        // var consult = json.consults;
+        console.log(response.consulta_info.nya);
+        console.log(response.consulta_info.n_afiliado);
+        console.log(response.consulta_info.obrasocial);
+        console.log("m"+id+" p");
+        
+        $("#m"+id+" p").append("Obra Social:"+response.consulta_info.obrasocial+"<br>"+
+        "Afiliado:"+response.consulta_info.nya+"<br>"+
+        "N° Afiliado:"+response.consulta_info.n_afiliado+"<br>"
+        );
+        // $("#"+dni).append(count_text);
+
+    }
+
+});
+}
+</script>
+{% endblock  %}
+  

@@ -1,0 +1,78 @@
+{% extends 'core/base.se.html' %}
+
+{% block content %}
+<!-- <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+</form>  -->
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Datos del Paciente </h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generar Receta</a>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Accordion -->
+          <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">{{ paciente.nya }}</h6>
+          </a>
+          <!-- Card Content - Collapse -->
+          <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+
+              <form method="post" id="form1">
+                {% csrf_token %}
+            
+               
+
+            
+                <h5>
+                    <span class="badge badge-secondary">DNI</span> {{form.dni}}
+                    <span class="badge badge-secondary">Nombre y Apellido</span> {{form.nya}}
+                    
+                  </h5>
+                   <h5>
+                      <span class="badge badge-secondary">Telefono</span> {{form.telefono}}
+                      <span class="badge badge-secondary">Celular</span> {{form.celular}}
+                    
+                    
+                  </h5>
+                  <h5>
+                      <span class="badge badge-secondary">Direccion</span> {{form.direccion}}
+                      <span class="badge badge-secondary">CP</span> {{form.cp}}
+                      
+                  </h5>
+                  <h5>
+                      <span class="badge badge-secondary">Email</span> {{form.mail}}
+                      <span class="badge badge-secondary">Telefono</span> {{form.telefono}}
+                  </h5>
+                  <h5>
+                      <span class="badge badge-secondary">Fecha de Nacimiento</span> {{form.fecha_nac}} 
+                      <span class="badge badge-secondary">Peso de Nacimiento</span> {{form.peso_nac}} 
+                  </h5>
+                  <h5>
+                    <span class="badge badge-secondary">Eg</span> {{form.eg}} 
+                    <span class="badge badge-secondary">Talla</span> {{form.talla}} 
+                    <span class="badge badge-secondary">PC</span> {{form.pc}} 
+                    <span class="badge badge-secondary">Apgar</span> {{form.apgar}} 
+                    <span class="badge badge-secondary">Tutor</span> {{form.tutor}} 
+
+                  </h5>
+                <a href="{% url "pacientes:list"  %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left"></i>Volver   </a>
+            
+                <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="submit"  value="Submit"><i class="fas fa-save"></i>Guardar</button>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+{% endblock content %}
+        

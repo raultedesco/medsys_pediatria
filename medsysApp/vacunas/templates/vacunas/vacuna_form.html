@@ -1,0 +1,60 @@
+
+{% extends 'core/base.se.html' %}
+
+<!-- {% block paciente_link %}
+
+{% url 'pacientes:detail' afiliado.paciente_id.id %}
+
+{% endblock paciente_link %}   -->
+
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Vacunas </h1>
+
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-12">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Accordion -->
+      <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+        <h6 class="m-0 font-weight-bold text-primary">Nuevo Vacuna</h6>
+      </a>
+      <!-- Card Content - Collapse -->
+      <div class="collapse show" id="collapseCardExample">
+        <div class="card-body">
+          
+          <form method="POST" id="form1">
+            {% csrf_token %}
+        
+            <!-- {{ form.as_p }} -->
+        
+        
+         <h5>
+            <span class="badge badge-secondary">Fecha de Aplicacion</span> {{form.fecha_aplicacion}}
+          <span class="badge badge-secondary">Tipo de Vacuna</span> {{form.tipo_id}}
+          
+        </h5>
+        <h5>
+            <span class="badge badge-secondary">Periodo</span> {{form.periodo_id}}
+            <h5>
+              <!-- <span class="badge badge-secondary">Paciente</span> -->
+               {{form.paciente_id}}
+
+          </h5>
+        </h5>  
+          <a href="{% url 'vacunas:list' paciente.id %}"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left fa-sm "></i> Volver</a>
+          <button class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="submit"  value="Submit"><i class="fas fa-save"></i>Guardar</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+          {% endblock %}
+
+
+
+

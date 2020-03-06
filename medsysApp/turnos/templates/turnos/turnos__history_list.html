@@ -1,0 +1,85 @@
+{% extends 'core/base.se.html' %}
+{%load static%}
+{% block back %}<a href="{%url 'pacientes:list'%}"><i class="fas fa-arrow-left"></i>Dashboard -  Pacientes</a>{% endblock %}
+{% block content %}
+
+
+
+  <!-- Page Heading -->
+
+  <div class="d-sm-flex align-items-left justify-content-between mb-4">
+    <a href="{%url 'pacientes:list'%}" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm ml-4">
+      <i class="fas fa-arrow-left fa-sm text-blue-50"></i> Dashboard
+    </a>
+  </div>
+
+
+  <!-- Content Row -->
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h5 class="m-0 font-weight-bold text-primary">Historial - Lista de Espera de Pacientes</h5>
+      
+    </div>
+
+    
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>N° Turno</th>
+              <th>Fecha Turno</th>
+              <th>Nombre y Apellido</th>
+              <th>Paciente Relacionado</th>
+              
+             </tr>
+
+     
+          </thead>
+
+          <tbody>
+            {% for turnos in object_list %}
+               
+            <tr>
+              <td>{{turnos.id}}</td>
+              <!-- <td>{{turnos.fecha_turno|date:"d-m-y"}}</td> -->
+              <td>{{turnos.fecha_turno}}</td>
+
+              <td>{{turnos.nya}}</td>
+              {% url 'pacientes:brief' turnos.paciente_id.id as url_paciente_resumen %}
+              <td><a href="{{url_paciente_resumen}}">{{turnos.paciente_id}}</a>
+                </td>
+
+            </tr>
+            {% empty %}
+            <!-- No hay Recetas aun... -->
+            {% endfor %}   
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<!-- <footer class="sticky-footer bg-white">
+<div class="container my-auto">
+  <div class="copyright text-center my-auto">
+    <span>Copyright &copy; Your Website 2019</span>
+  </div>
+</div>
+</footer> -->
+<!-- End of Footer -->
+
+
+         
+{% endblock %}
+     
+{% block scripts %}    
+<script src="{% static 'core/js/demo/datatables-turnos.js'%}"></script>
+{%endblock%}
+
+

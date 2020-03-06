@@ -1,0 +1,24 @@
+{% extends 'core/base.se.html' %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+      
+      <h6 class="m-0 font-weight-bold text-primary">Doctor Rott -- Receta Medica -- {% now "SHORT_DATE_FORMAT" %}</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Paciente:</h6>
+    </div>
+    <div class="card-body">
+        <form method="post"  target="_blank">
+            {% csrf_token %}
+      <p class="mb-0">
+       {{form.descripcion}}
+      </p>
+      {{form.paciente_id}}
+      <button class="btn btn-primary" type="submit"  value="Submit"><i class="fas fa-save"></i> Guardar</button>
+      
+      </form>
+    </div>
+    
+  </div>
+
+{% endblock%}

@@ -1,0 +1,47 @@
+{% extends 'core/base.se.html' %}
+
+{%load static%}
+
+{% block content %}
+<!-- Page Heading -->
+<a href="{% url 'recetas:footer_list' %}" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm mb-4"><i class="fas fa-arrow-left"></i>Volver</a>
+
+
+<div class="row">
+    <div class="col-xl-6 col-lg-7">
+        <div class="card shadow mb-4">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">Modifique los datos del Pie de la receta</label>
+                    <!-- <p>
+                        <textarea name="footer" cols="40" rows="10" placeholder=""
+                            maxlength="200" required id="id_footer"></textarea>
+                    </p> -->
+                    <p>
+                    {{form.footer}}
+                    </p>
+                    <p><label>Seleccione Orientacion del Pie de la Receta</label>
+                        <!-- agregar a select para acortar texto en option size='3' -->
+                   
+                    <select name="{{ form.orientacion.name }}" id="{{ form.orientacion.id_for_label }}" class="form-control">
+                        {% for value, name in form.orientacion.field.choices %}
+                            <option value="{{ value }}">{{ name }}</option>
+                        {% endfor %}
+                     </select>
+                    </p>
+                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit"
+                        value="Submit"><i class="fas fa-save"></i> Guardar</button>
+
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}
