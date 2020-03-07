@@ -27,7 +27,7 @@ textarea {
         <form method="post" target="_blank/receta" id='Recta'>
             {% csrf_token %}
       <p class="mb-0">
-          <textarea id="id_receta" name="descripcion" cols="40" rows="10" placeholder="Ingrese Texto de la Receta" maxlength="1000" required id="id_descripcion" class="form-control">Fecha:{% now "SHORT_DATE_FORMAT" %}&#13;&#10; Paciente:{{paciente.nya}}{%if paciente.dni != None %} -DNI:{{paciente.dni}}{%endif%}&#13;&#10;Obra Social:{{afiliado.ObraSocial}} &#13;&#10;N° {{afiliado.n_afiliado}}
+          <textarea id="id_receta" name="descripcion" cols="40" rows="10" placeholder="Ingrese Texto de la Receta" maxlength="1000" required id="id_descripcion" class="form-control">{{paciente.nya}}{%if paciente.dni != None %}&#13;&#10;DNI:{{paciente.dni}}{%endif%}&#13;&#10;{{afiliado.ObraSocial}} &#13;&#10;Af. N° {{afiliado.n_afiliado}}
           </textarea>
           
        <!-- {{form.descripcion}} -->

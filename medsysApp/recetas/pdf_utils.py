@@ -106,7 +106,7 @@ def gen_pdf(request, template=None):
     #full path
     header = Paragraph(template.header_id.header, get_styles_customs(h_orientacion)) 
     logo = settings.MEDIA_ROOT+'/'+str(template.header_id.logo)
-    imagen = Image(logo, width=50, height=50,hAlign='RIGHT')
+    imagen = Image(logo, width=80, height=60,hAlign='RIGHT')
     t.append(imagen)
     t.append(header)
 
@@ -114,7 +114,7 @@ def gen_pdf(request, template=None):
     legend = request.POST.get('descripcion')
     content = str(legend).replace('\n','<br />\n')
    
-    t.append(Paragraph(content, get_styles_customs('Normal_C')))
+    t.append(Paragraph(content, get_styles_customs('Normal_'+template.orientacion)))
 
     frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height,id='normal')
     header_content = Paragraph(template.footer_id.footer, get_styles_customs(f_orientacion))
