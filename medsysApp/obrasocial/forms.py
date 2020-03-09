@@ -13,11 +13,11 @@ class AfiliadoForm(ModelForm):
     class Meta:
      model = Afiliado
     #  fields = ['dni', 'nya', 'fecha_nac']
-     fields = '__all__'
-     widgets = {
-      'fecha_nac': DateInput(),
-     }
 
+     fields = ['nya', 'n_afiliado','ObraSocial','paciente_id']
+     widgets = {
+      'paciente_id': forms.HiddenInput()
+     }
 
 class AfiliadoDetailForm(ModelForm):
 

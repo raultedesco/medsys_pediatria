@@ -134,7 +134,7 @@ No hay Pacientes aun...
               {% else %}
               <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                 <a class="text-success" href="#">{{afiliado}}</a>
-                <a href="{% url 'obrasocial:create' %}"
+                <a href="{% url 'obrasocial:create' paciente.id%}"
                   class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm text-capitalize">
                   <i class="fas fa-file-medical-alt fa-sm text-white-50"></i> Crear Obra Social
                 </a>

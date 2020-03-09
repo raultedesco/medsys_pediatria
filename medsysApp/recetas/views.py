@@ -108,7 +108,11 @@ class RecetaCreation(CreateView):
         paciente_id = self.kwargs['pk']
         snippets = RecetaSnippet.objects.all()
         paciente = get_object_or_404(Paciente, id=paciente_id)
-        afiliado = get_object_or_404(Afiliado, paciente_id=paciente_id)
+        try:
+            afiliado = Afiliado.objects.get(paciente_id=paciente_id)
+        except Afiliado.DoesNotExist:
+            afiliado = None
+        # afiliado = get_object_or_404(Afiliado, paciente_id=paciente_id)
         context['paciente'] = paciente
         context['afiliado'] = afiliado
         context['snippets'] = snippets

@@ -34,7 +34,7 @@ class Paciente(models.Model):
     apgar = models.CharField(max_length=50, blank=True, null=True)
     tutor = models.CharField(max_length=80, blank=True, null=True)
     ciudad = models.ForeignKey(Ciudad, on_delete=models.CASCADE, verbose_name='Ciudad', default='1')
-
+    
     def __str__(self):
         return u'%s %s %s' % (self.nya, 'DNI:', self.dni)
           

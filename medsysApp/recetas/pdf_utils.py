@@ -53,7 +53,7 @@ def get_styles_customs(custom_style):
         Style_normal_Center = ParagraphStyle('normal_centrado', 
                             alignment = TA_CENTER,
                             fontSize = 14,
-                            leading = 28,
+                            leading = 14,
                             spacebefore=60,
                             spaceAfter=14,
                             parent=styles['Normal'],)
@@ -64,7 +64,7 @@ def get_styles_customs(custom_style):
         Style_normal_Left = ParagraphStyle('normal_left', 
                            alignment = TA_LEFT,
                             fontSize = 14,
-                            leading = 28,
+                            leading = 14,
                             spacebefore=40,
                             spaceAfter=14,
                         #    fontName="Helvetica",
@@ -96,7 +96,7 @@ def init_pdf_doc():
 
 def gen_pdf(request, template=None):
     h_orientacion = 'Titulo_'+template.header_id.orientacion
-    f_orientacion ='Footer_'+template.orientacion
+    f_orientacion ='Footer_'+template.footer_id.orientacion
     response, buff  = init_pdf_doc()
     doc = SimpleDocTemplate(buff,pagesize=letter,rightMargin=40,leftMargin=40,topMargin=60,bottomMargin=18,)
     t=[]
@@ -104,12 +104,14 @@ def gen_pdf(request, template=None):
     #path relativo 
     # archivo_imagen2 = settings.MEDIA_ROOT+'/header/logo/login.png'
     #full path
-    header = Paragraph(template.header_id.header, get_styles_customs(h_orientacion)) 
+    header_tmp = template.header_id.header
+    content1 = str(header_tmp).replace('\n','<br />\n')
+    print(content1)
+    header = Paragraph(content1, get_styles_customs(h_orientacion)) 
     logo = settings.MEDIA_ROOT+'/'+str(template.header_id.logo)
     imagen = Image(logo, width=80, height=60,hAlign='RIGHT')
     t.append(imagen)
     t.append(header)
-
     t.append(Paragraph('Rp./', get_styles_customs('Titulo2_I')))
     legend = request.POST.get('descripcion')
     content = str(legend).replace('\n','<br />\n')
@@ -136,7 +138,10 @@ def preview_template_asPDF(request,template=None):
     response, buff  = init_pdf_doc()
     doc = SimpleDocTemplate(buff,pagesize=letter,rightMargin=40,leftMargin=40,topMargin=60,bottomMargin=18,)
     t=[]
-    header = Paragraph(template.header_id.header, get_styles_customs(h_orientacion)) 
+    header_tmp = template.header_id.header
+    content1 = str(header_tmp).replace('\n','<br />\n')
+    print(content1)
+    header = Paragraph(content1, get_styles_customs(h_orientacion)) 
     logo = settings.MEDIA_ROOT+'/'+str(template.header_id.logo)
     imagen = Image(logo, width=50, height=50,hAlign='RIGHT')
     t.append(imagen)
@@ -190,7 +195,9 @@ def view_receta_stored(request,receta):
     #path relativo 
     # archivo_imagen2 = settings.MEDIA_ROOT+'/header/logo/login.png'
     #full path
-    header = Paragraph(receta.template_id.header_id.header, get_styles_customs(h_orientacion)) 
+    header_tmp = receta.template_id.header_id.header
+    content1 = str(header_tmp).replace('\n','<br />\n')
+    header = Paragraph(content1, get_styles_customs(h_orientacion)) 
     logo = settings.MEDIA_ROOT+'/'+str(receta.template_id.header_id.logo)
     imagen = Image(logo, width=50, height=50,hAlign='RIGHT')
     t.append(imagen)

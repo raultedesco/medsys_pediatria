@@ -21,6 +21,12 @@ class AfiliadoCreate(CreateView):
     success_url = reverse_lazy('pacientes:list')
     form_class = AfiliadoForm
 
+    def get_initial(self, *args, **kwargs):
+        initial = super(AfiliadoCreate, self).get_initial(**kwargs)
+        paciente_id = self.kwargs['pk']
+        initial['paciente_id'] = paciente_id
+        return initial
+
 class ObraSocialDetail(DetailView):
     model = Afiliado
     template_name = "obrasocial/obra_social.html"

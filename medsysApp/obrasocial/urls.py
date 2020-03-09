@@ -20,7 +20,7 @@ from .views import ObraSocialDetail,AfiliadoUpdate, AfiliadoDelete, AfiliadoCrea
 app_name='obrasocial'
 urlpatterns = [
    #path('', views.home_obrasocial, name='home_obrasocial'),
-   path('create/afiliado/',AfiliadoCreate.as_view(), name='create' ),
+   path('create/afiliado/<int:pk>',AfiliadoCreate.as_view(), name='create' ),
    path('afiliado/<pk>/', ObraSocialDetail.as_view(), name='afiliado' ),
    path('editar/afiliado/<int:pk>', AfiliadoUpdate.as_view(),name="editar"),
    path('borrar/afiliado/<int:pk>', AfiliadoDelete.as_view(), name='delete')
